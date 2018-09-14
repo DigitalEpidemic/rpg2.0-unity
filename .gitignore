@@ -36,3 +36,5 @@ sysinfo.txt
 *.unitypackage
 Assets/PolygonDungeon/
 Assets/Animations/
+Assets/Standard Assets/
+Assets/Prefabs/Environment.prefab
