@@ -32,7 +32,6 @@ public class CameraFollow : MonoBehaviour {
 
         var cameraRotation = new Vector3(0f, Input.GetAxis("Horizontal"), 0f);
         transform.Rotate(cameraRotation * speed * Time.deltaTime);
-
         
         PlayerZoom();
     }
@@ -57,15 +56,9 @@ public class CameraFollow : MonoBehaviour {
         if (!protectCameraFromWallClip.protecting) {
             if (hasScrolled) {
                 fov = previousFov;
-                //Camera.main.fieldOfView = fov;
-                //Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, previousFov, Time.deltaTime*3f);
-                Camera.main.fieldOfView = Mathf.MoveTowards(Camera.main.fieldOfView, previousFov, Time.deltaTime*85f);
+                Camera.main.fieldOfView = Mathf.MoveTowards(Camera.main.fieldOfView, previousFov, Time.deltaTime * 85f);
             }
         }
-
-        print("HasScrolled: " + hasScrolled);
-        
-        // TODO Fix camera FoV when turning away from wall if previously zoomed
     }
 
     void CompensateForWalls() {

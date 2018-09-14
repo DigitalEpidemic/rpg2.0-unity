@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
+// TODO Clean up code and variables
 public class ProtectCameraFromWallClip : MonoBehaviour {
     public float clipMoveTime = 0.05f;              // time taken to move when avoiding cliping (low value = fast, which it should be)
     public float returnTime = 0.4f;                 // time taken to move back towards desired position, when not clipping (typically should be a higher value than clipMoveTime)
