@@ -32,7 +32,7 @@ public class CameraFollow : MonoBehaviour {
 
         var cameraRotation = new Vector3(0f, Input.GetAxis("Horizontal"), 0f);
         transform.Rotate(cameraRotation * speed * Time.deltaTime);
-        
+
         PlayerZoom();
     }
 
@@ -58,18 +58,6 @@ public class CameraFollow : MonoBehaviour {
                 fov = previousFov;
                 Camera.main.fieldOfView = Mathf.MoveTowards(Camera.main.fieldOfView, previousFov, Time.deltaTime * 85f);
             }
-        }
-    }
-
-    void CompensateForWalls() {
-        var playerTransform = player.transform.position;
-        var cameraTransform = Camera.main.transform.position;
-
-        Debug.DrawLine(playerTransform, cameraTransform, Color.cyan);
-
-        RaycastHit wallHit;
-        if (Physics.Linecast(playerTransform, cameraTransform, out wallHit)) {
-            wallHit.transform.GetComponent<MeshRenderer>().material.color = new Color(1, 1, 1, 0.2f);
         }
     }
 

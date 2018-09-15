@@ -382,7 +382,7 @@ GameObject:
   - component: {fileID: 95182254802997512}
   - component: {fileID: 195372730179708804}
   - component: {fileID: 114021725047774086}
-  - component: {fileID: 114326617592907890}
+  - component: {fileID: 114866946553763318}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2849,7 +2849,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0639b549fbfafc54cb617a0087b7b2d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114326617592907890
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  maxRaycastDistance: 50
+--- !u!114 &114866946553763318
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2857,9 +2861,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1348033711172244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 329e6fb4fe8b15f49962297f5faad41e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outlineMode: 2
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineWidth: 3
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!137 &137124809861445732
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -4399,8 +4409,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 7
-  m_Acceleration: 35
+  m_Speed: 7.25
+  m_Acceleration: 34
   avoidancePriority: 50
   m_AngularSpeed: 1200
   m_StoppingDistance: 0

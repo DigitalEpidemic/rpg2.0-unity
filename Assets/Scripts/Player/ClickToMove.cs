@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[SelectionBase]
 public class ClickToMove : MonoBehaviour {
 
     Animator anim;
     NavMeshAgent navMeshAgent;
+
+    [SerializeField] LayerMask groundLayerMask;
+    [SerializeField] float maxRaycastDistance = 50f;
 
     bool walking;
     float speed = 1.0f;
@@ -22,13 +26,12 @@ public class ClickToMove : MonoBehaviour {
 
         if (Input.GetMouseButton(0)) { // TODO Change to input binding
 
-            if (Physics.Raycast(ray, out hit)) {
-
+            if (Physics.Raycast(ray, out hit, maxRaycastDistance, groundLayerMask)) {
                 // TODO Add if hits enemy 
                 speed += Time.deltaTime * 2f;
 
                 if (Input.GetMouseButtonDown(0)) {
-                    navMeshAgent.velocity = Vector3.zero;
+                    //navMeshAgent.velocity = Vector3.zero;
                     navMeshAgent.isStopped = true;
                 }
 
@@ -55,11 +58,9 @@ public class ClickToMove : MonoBehaviour {
 
         speed = Mathf.Clamp(speed, 0f, 1f);
         
-
         if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) {
             if (!navMeshAgent.hasPath || Mathf.Abs(navMeshAgent.velocity.sqrMagnitude) < float.Epsilon) {
                 walking = false;
-
             }
         } else {
             walking = true;
@@ -68,5 +69,4 @@ public class ClickToMove : MonoBehaviour {
         anim.SetBool("IsWalking", walking);
         anim.SetFloat("Speed", speed);
     }
-
 } // ClickToMove
