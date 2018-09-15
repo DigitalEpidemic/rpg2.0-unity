@@ -23,7 +23,6 @@ public class Outline : MonoBehaviour {
     OutlineAndSilhouette,
     SilhouetteOnly
   }
-
   public Mode OutlineMode {
     get { return outlineMode; }
     set {
