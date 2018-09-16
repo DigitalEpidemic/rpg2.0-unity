@@ -6,10 +6,15 @@ using UnityEngine.AI;
 [SelectionBase]
 public class PlayerControl : MonoBehaviour {
 
+    [SerializeField] AnimatorOverrideController animatorOverrideController;
+
     Animator anim;
     NavMeshAgent navMeshAgent;
-    CameraRaycaster cameraRaycaster;
 
+    CameraRaycaster cameraRaycaster;
+    PlayerWeaponSystem weaponSystem;
+
+    //GameObject updatedTarget;
     public bool isAttacking;
 
     const string DEATH_TRIGGER = "Death";
@@ -22,15 +27,23 @@ public class PlayerControl : MonoBehaviour {
         anim = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
+        weaponSystem = GetComponent<PlayerWeaponSystem>();
     }
 
     void Update() {
+        if (anim.GetBool("Attack")) {
+            navMeshAgent.velocity = Vector3.zero;
+            navMeshAgent.isStopped = true;
+            walking = false;
+        }
+
         if (isAlive) {
             if (Input.GetMouseButton(0)) { // TODO Change to input binding
-
+                print(cameraRaycaster.hit.transform.gameObject.name);
                 switch (cameraRaycaster.layerHit) {
                     case Layer.Enemy: // Enemy layer
-                        Debug.Log("TODO: Implement attacking enemy.");
+                        //Debug.Log("TODO: Implement attacking enemy.");
+                        Enemy();
                         break;
                     default: // Every layer that is left
                         MovePlayer();
@@ -42,7 +55,12 @@ public class PlayerControl : MonoBehaviour {
         }
     }
 
+    public AnimatorOverrideController GetOverrideController() {
+        return animatorOverrideController;
+    }
+
     void MovePlayer() {
+        weaponSystem.StopAttacking();
         speed += Time.deltaTime * 2f;
 
         if (Input.GetMouseButtonDown(0)) {
@@ -65,6 +83,40 @@ public class PlayerControl : MonoBehaviour {
         walking = true;
         navMeshAgent.SetDestination(cameraRaycaster.hit.point);
         navMeshAgent.isStopped = false;
+    }
+
+    bool IsTargetInRange(GameObject target) {
+        //updatedTarget = target;
+        float distanceToTarget = (target.transform.position - transform.position).magnitude;
+        return distanceToTarget <= weaponSystem.GetCurrentWeapon().GetMaxAttackRange();
+    }
+
+    void Enemy() {
+        GameObject enemy = cameraRaycaster.hit.transform.gameObject;
+        if (IsTargetInRange(enemy)) {
+            navMeshAgent.isStopped = true;
+            walking = false;
+            weaponSystem.AttackTarget(enemy);
+        } else {
+            StartCoroutine(MoveAndAttack(enemy));
+        }
+    }
+
+    IEnumerator MoveToTarget(GameObject enemy) {
+        //updatedTarget = enemy;
+        navMeshAgent.isStopped = false;
+        walking = true;
+        navMeshAgent.SetDestination(enemy.transform.position);
+        while (!IsTargetInRange(enemy)) {
+            yield return new WaitForEndOfFrame();
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
+    IEnumerator MoveAndAttack(GameObject enemy) {
+        //updatedTarget = enemy;
+        yield return StartCoroutine(MoveToTarget(enemy));
+        weaponSystem.AttackTarget(enemy);
     }
 
     void AnimatePlayer() {
