@@ -19,7 +19,7 @@ public class PlayerControl : MonoBehaviour {
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
     }
 
-    void LateUpdate() {
+    void Update() {
         if (Input.GetMouseButton(0)) { // TODO Change to input binding
 
             switch (cameraRaycaster.layerHit) {
@@ -67,8 +67,6 @@ public class PlayerControl : MonoBehaviour {
             if (!navMeshAgent.hasPath || Mathf.Abs(navMeshAgent.velocity.sqrMagnitude) < float.Epsilon) {
                 walking = false;
             }
-        } else {
-            walking = true;
         }
 
         anim.SetBool("IsWalking", walking);
