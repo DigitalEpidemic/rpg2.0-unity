@@ -10,7 +10,12 @@ public class PlayerControl : MonoBehaviour {
     NavMeshAgent navMeshAgent;
     CameraRaycaster cameraRaycaster;
 
+    public bool isAttacking;
+
+    const string DEATH_TRIGGER = "Death";
+
     bool walking;
+    bool isAlive = true;
     float speed = 1.0f;
 
     void Awake() {
@@ -20,19 +25,21 @@ public class PlayerControl : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetMouseButton(0)) { // TODO Change to input binding
+        if (isAlive) {
+            if (Input.GetMouseButton(0)) { // TODO Change to input binding
 
-            switch (cameraRaycaster.layerHit) {
-                case Layer.Enemy: // Enemy layer
-                    Debug.Log("TODO: Implement attacking enemy.");
-                    break;
-                default: // Every layer that is left
-                    MovePlayer();
-                    break;
+                switch (cameraRaycaster.layerHit) {
+                    case Layer.Enemy: // Enemy layer
+                        Debug.Log("TODO: Implement attacking enemy.");
+                        break;
+                    default: // Every layer that is left
+                        MovePlayer();
+                        break;
+                }
+
             }
-
+            AnimatePlayer();
         }
-        AnimatePlayer();
     }
 
     void MovePlayer() {
@@ -71,6 +78,11 @@ public class PlayerControl : MonoBehaviour {
 
         anim.SetBool("IsWalking", walking);
         anim.SetFloat("Speed", speed);
+    }
+
+    public void Kill() {
+        isAlive = false;
+        anim.SetTrigger(DEATH_TRIGGER);
     }
 
 } // PlayerControl
