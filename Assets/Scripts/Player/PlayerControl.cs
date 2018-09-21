@@ -100,6 +100,11 @@ public class PlayerControl : MonoBehaviour {
         } else {
             StartCoroutine(MoveAndAttack(enemy));
         }
+
+        if (Vector3.Distance(transform.position, cameraRaycaster.hit.point) >= 0.8f) {
+            anim.speed = 1f;
+            speed = 1f;
+        }
     }
 
     IEnumerator MoveToTarget(GameObject enemy) {

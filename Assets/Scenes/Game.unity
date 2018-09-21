@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb4bef14de7ede4bbaa4d59f0b849fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 1000
+  maxHealthPoints: 100
   healthBar: {fileID: 795301314}
   deathVanishSeconds: 2
   currentHealthPoints: 0
